@@ -34,7 +34,7 @@ public class SensorController {
         Page<Sensor> sensors = sensorRepository.findAll(pageable);
 
         return sensors.map(this::convertToModel);
-//        return sensors.map(sensor -> convertToModel(sensor));
+
     }
 
     @GetMapping("{sensorId}")

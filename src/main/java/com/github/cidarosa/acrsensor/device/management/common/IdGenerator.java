@@ -1,4 +1,4 @@
-package com.github.cidarosa.acrsensor.device.management.utils;
+package com.github.cidarosa.acrsensor.device.management.common;
 
 import io.hypersistence.tsid.TSID;
 

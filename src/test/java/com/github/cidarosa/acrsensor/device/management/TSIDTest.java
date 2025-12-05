@@ -1,6 +1,6 @@
 package com.github.cidarosa.acrsensor.device.management;
 
-import com.github.cidarosa.acrsensor.device.management.utils.IdGenerator;
+import com.github.cidarosa.acrsensor.device.management.common.IdGenerator;
 import io.hypersistence.tsid.TSID;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

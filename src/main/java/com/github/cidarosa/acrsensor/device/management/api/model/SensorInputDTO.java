@@ -3,7 +3,7 @@ package com.github.cidarosa.acrsensor.device.management.api.model;
 import lombok.Data;
 
 @Data
-public class SensorInput {
+public class SensorInputDTO {
 
     private String name;
     private String ip;

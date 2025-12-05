@@ -1,6 +1,7 @@
 package com.github.cidarosa.acrsensor.device.management.api.controller;
 
-import com.github.cidarosa.acrsensor.device.management.api.model.SensorInput;
+import com.github.cidarosa.acrsensor.device.management.api.model.SensorInputDTO;
+import com.github.cidarosa.acrsensor.device.management.api.model.SensorOutputDTO;
 import com.github.cidarosa.acrsensor.device.management.common.IdGenerator;
 import com.github.cidarosa.acrsensor.device.management.domain.model.Sensor;
 import com.github.cidarosa.acrsensor.device.management.domain.model.SensorId;
@@ -22,7 +23,7 @@ public class SensorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Sensor create(@RequestBody SensorInput input){
+    public SensorOutputDTO create(@RequestBody SensorInputDTO input) {
 
         Sensor sensor = Sensor.builder()
                 .id(new SensorId(IdGenerator.generateTSID()))
@@ -34,6 +35,16 @@ public class SensorController {
                 .enabled(false)
                 .build();
 
-        return sensorRepository.saveAndFlush(sensor);
+        sensor = sensorRepository.saveAndFlush(sensor);
+
+        return SensorOutputDTO.builder()
+                .id(sensor.getId().getValue())
+                .name(sensor.getName())
+                .ip(sensor.getIp())
+                .location(sensor.getLocation())
+                .protocol(sensor.getProtocol())
+                .model(sensor.getModel())
+                .enabled(sensor.getEnabled())
+                .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.github.cidarosa.acrsensor.device.management.domain.service;
 
+import com.github.cidarosa.acrsensor.device.management.api.client.SensorMonitoringClient;
 import com.github.cidarosa.acrsensor.device.management.api.model.SensorInputDTO;
 import com.github.cidarosa.acrsensor.device.management.api.model.SensorOutputDTO;
 import com.github.cidarosa.acrsensor.device.management.common.IdGenerator;
@@ -20,6 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class SensorService {
 
     private final SensorRepository sensorRepository;
+
+    //chamando o RestClient
+    private final SensorMonitoringClient sensorMonitoringClient;
 
     @Transactional(readOnly = true)
     public Page<SensorOutputDTO> findAllPageable(Pageable pageable) {
@@ -69,6 +73,8 @@ public class SensorService {
             Sensor sensor = sensorRepository.getReferenceById(new SensorId(sensorId));
             sensor.setEnabled(true);
             sensorRepository.save(sensor);
+
+            sensorMonitoringClient.enableMonitoring(sensorId);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado. ID: " + sensorId);
         }
@@ -81,6 +87,8 @@ public class SensorService {
             Sensor sensor = sensorRepository.getReferenceById(new SensorId(sensorId));
             sensor.setEnabled(false);
             sensorRepository.save(sensor);
+
+            sensorMonitoringClient.disableMonitoring(sensorId);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado. ID: " + sensorId);
         }
@@ -94,6 +102,7 @@ public class SensorService {
         }
         sensorRepository.deleteById(new SensorId(sensorId));
 
+        sensorMonitoringClient.disableMonitoring(sensorId);
     }
 
     private void convertToEntity(SensorInputDTO inputDTO, Sensor sensor) {

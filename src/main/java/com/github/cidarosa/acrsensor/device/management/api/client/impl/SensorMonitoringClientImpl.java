@@ -4,10 +4,10 @@ import com.github.cidarosa.acrsensor.device.management.api.client.RestClientFact
 import com.github.cidarosa.acrsensor.device.management.api.client.SensorMonitoringClient;
 import com.github.cidarosa.acrsensor.device.management.api.model.SensorMonitoringOutputDTO;
 import io.hypersistence.tsid.TSID;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-@Component
+//@Component
+//substituido pelo RestClientConfig
 public class SensorMonitoringClientImpl implements SensorMonitoringClient {
 
     //comunicação com RestClient - recebe URL do MS que está consumindo (monitoring)

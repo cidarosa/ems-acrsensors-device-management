@@ -1,5 +1,6 @@
 package com.github.cidarosa.acrsensor.device.management.api.controller;
 
+import com.github.cidarosa.acrsensor.device.management.api.model.SensorDetailOutputDTO;
 import com.github.cidarosa.acrsensor.device.management.api.model.SensorInputDTO;
 import com.github.cidarosa.acrsensor.device.management.api.model.SensorOutputDTO;
 import com.github.cidarosa.acrsensor.device.management.domain.service.SensorService;
@@ -44,6 +45,14 @@ public class SensorController {
         SensorOutputDTO sensorDTO = sensorService.findById(sensorId);
 
         return ResponseEntity.ok(sensorDTO);
+    }
+
+    @GetMapping("{sensorId}/detail")
+    public ResponseEntity<SensorDetailOutputDTO> getOneWithDetail(@PathVariable TSID sensorId) {
+
+        SensorDetailOutputDTO sensorDetailDTO = sensorService.findByIdWithDetail(sensorId);
+
+        return ResponseEntity.ok(sensorDetailDTO);
     }
 
 

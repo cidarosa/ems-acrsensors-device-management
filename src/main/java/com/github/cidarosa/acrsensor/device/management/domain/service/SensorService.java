@@ -1,7 +1,9 @@
 package com.github.cidarosa.acrsensor.device.management.domain.service;
 
 import com.github.cidarosa.acrsensor.device.management.api.client.SensorMonitoringClient;
+import com.github.cidarosa.acrsensor.device.management.api.model.SensorDetailOutputDTO;
 import com.github.cidarosa.acrsensor.device.management.api.model.SensorInputDTO;
+import com.github.cidarosa.acrsensor.device.management.api.model.SensorMonitoringOutputDTO;
 import com.github.cidarosa.acrsensor.device.management.api.model.SensorOutputDTO;
 import com.github.cidarosa.acrsensor.device.management.common.IdGenerator;
 import com.github.cidarosa.acrsensor.device.management.domain.model.Sensor;
@@ -40,6 +42,21 @@ public class SensorService {
                 .orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado. ID: " + sensorId));
 
         return convertToModel(sensor);
+    }
+
+    @Transactional(readOnly = true)
+    public SensorDetailOutputDTO findByIdWithDetail(TSID sensorId) {
+
+        Sensor sensor = sensorRepository.findById(new SensorId(sensorId))
+                .orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado. ID: " + sensorId));
+
+        SensorMonitoringOutputDTO monitoringOutputDTO = sensorMonitoringClient.getDetail(sensorId);
+        SensorOutputDTO sensorOutputDTO = convertToModel(sensor);
+
+        return SensorDetailOutputDTO.builder()
+                .monitoring(monitoringOutputDTO)
+                .sensor(sensorOutputDTO)
+                .build() ;
     }
 
     @Transactional

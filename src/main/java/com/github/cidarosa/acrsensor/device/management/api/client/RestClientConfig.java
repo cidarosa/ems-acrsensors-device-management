@@ -21,5 +21,5 @@ public class RestClientConfig {
 
         return proxyFactory.createClient(SensorMonitoringClient.class);
 
-    };
+    }
 }
